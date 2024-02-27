@@ -23,6 +23,17 @@ mongoose.connect(process.env.MONGO_URI)
 server.use('/api/user',userRouter)
 server.use('/api/auth',authRouter)
 
+
+server.use((err,req,res,next)=>{
+    const statusCode = err.statusCode || 500;
+    const message = err.message || 'Internal Server Error!!'
+    res.status(statusCode).json({
+        success : false,
+        statusCode,
+        message
+    })
+})
+
 const PORT = 8080;
 server.listen(PORT,()=>{
     console.log(`server running on ${PORT}`)
