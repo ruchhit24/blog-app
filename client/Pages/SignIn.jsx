@@ -1,13 +1,18 @@
 import { Alert } from "flowbite-react";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import {siginInStart , signInSuccess , signInFailure} from '../src/user/userSlice.js'
+import {useDispatch, useSelector} from 'react-redux'
 
 const SignIn = () => {
  const navigate = useNavigate();
+ const dispatch = useDispatch();
+ 
+ const [form,setForm] = useState({});
+  // const[errorMsg,setErrorMsg]= useState(null);
+  // const [loading,setLoading] = useState(false);
 
-  const [form,setForm] = useState({});
-  const[errorMsg,setErrorMsg]= useState(null);
-  const [loading,setLoading] = useState(false);
+  const {loading,errorMsg} = useSelector(state => state.user)
 
   const changeHandler = (e)=>{
     setForm({...form,[e.target.id] : e.target.value.trim()});
@@ -18,30 +23,36 @@ const SignIn = () => {
   e.preventDefault(); 
   if( !form.email || !form.password )
   {
-    return setErrorMsg('all fields are required !!!')
+    //return setErrorMsg('all fields are required !!!')
+    return dispatch(signInFailure("all fields are required!!"))
   }
  try {
-   setLoading(true)
-   setErrorMsg(null)
+  //  setLoading(true)
+  //  setErrorMsg(null)
+  dispatch(siginInStart())
    const res = await fetch('/api/auth/signin',{
     method : 'POST',
     headers : {'Content-Type' : 'application/json'},
     body : JSON.stringify(form),
    })
    console.log(res);
+   
    const data = await res.json();
    if(data.success === false)
    {
-    return setErrorMsg(' please check your email')
+    //return setErrorMsg(' please check your email')
+    return dispatch(signInFailure('INCORRECT CREDENTIALS!!!'))
    }
-   setLoading(false)
+  //  setLoading(false)
    if(res.ok){
+    dispatch(signInSuccess(data));
     navigate('/')
    }
   
  } catch (error) {
-    setErrorMsg(error.message)
-    setLoading(false)
+    // setErrorMsg(error.message)
+    // setLoading(false)
+    dispatch(signInFailure(error.message))
  }
  }
   return (
