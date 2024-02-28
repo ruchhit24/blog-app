@@ -6,6 +6,7 @@ import SignUp from '../Pages/SignUp'
 import Dashboard from '../Pages/Dashboard'
 import Header from '../components/Header'
 import SignIn from '../Pages/SignIn'
+import Footer from '../components/Footer'
  const App = () => {
    return (
      <BrowserRouter>
@@ -17,7 +18,7 @@ import SignIn from '../Pages/SignIn'
       <Route path='/sign-up' element={<SignUp/>}/>
       <Route path='/dashboard' element={<Dashboard/>}/>
      </Routes>
-
+    <Footer/>
      </BrowserRouter>
    )
  }
