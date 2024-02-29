@@ -4,7 +4,7 @@ import { app } from "../firebase";
 import { FcGoogle } from "react-icons/fc";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { signInSuccess } from "../src/user/userSlice";
+import { signInSuccess } from "../src/redux/user/userSlice"
 
 
 const Oauth = () => {

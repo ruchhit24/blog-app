@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { siginInStart, signInSuccess, signInFailure } from '../src/user/userSlice.js'
+import { siginInStart, signInSuccess, signInFailure } from '../src/redux/user/userSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import Oauth from "../components/Oauth.jsx";
 
@@ -44,14 +44,14 @@ const SignIn = () => {
   return (
     <>
       <div className="w-full min-h-screen flex justify-center items-center">
-        <div className="flex flex-col w-1/2 h-full items-center font-semibold tracking-tight leading-none" >
+        <div className=" flex flex-col w-1/2 h-full items-center font-semibold tracking-tight leading-none gap-5" >
           <div className="flex items-center justify-center bg-gray-200 rounded-lg " style={{ paddingRight: '20px', width: '100px', height: '40px', }}>
             <h2 className='flex items-center justify-center bg-gradient-to-r from-cyan-500 to-cyan-700 text-white px-2 rounded-lg font-semibold text-xl sm:text-xl' style={{ width: '100px', height: '40px' }}>WISE</h2>
-            <h2 className='tracking-tighter font-medium text-xl sm:text-xl'>Blog</h2>
+            <h2 className='tracking-tighter font-medium text-xl sm:text-xl text-black'>Blog</h2>
           </div>
-          <p className=" text-lg leading-none tracking-tighter text-center">
+          <div className="text-lg leading-none tracking-tighter text-center">
             This is a demo project. You can sign up with your email and password or with Google.
-         </p>
+         </div>
         </div>
         <div className="w-1/2 h-full flex justify-center items-center" >
           <div className=" p-4 m-2" style={{ width: '480px' }}>

@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { IoSearch } from "react-icons/io5";
-import { FaMoon } from "react-icons/fa";
+import { FaMoon, FaSun } from "react-icons/fa";
+import { toggleTheme } from "../src/redux/theme/themeSlice";
+import { useSelector,useDispatch } from "react-redux";
 
-import { useSelector } from "react-redux";
 const Header = () => {
   const { currentUser } = useSelector((state) => state.user);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const dispatch = useDispatch();
+  const { theme } = useSelector((state) => state.theme);
 
   const handleDropdownToggle = () => {
     setDropdownOpen(!dropdownOpen);
@@ -19,7 +22,7 @@ const Header = () => {
             <h2 className="flex items-center justify-center bg-gradient-to-r from-cyan-500 to-cyan-700 text-white px-2 rounded-lg font-bold text-md sm:text-xl">
               WISE
             </h2>
-            <h2 className="tracking-tighter font-medium text-xl sm:text-xl">
+            <h2 className="tracking-tighter text-black font-medium text-xl sm:text-xl">
               Blog
             </h2>
           </div>
@@ -48,8 +51,8 @@ const Header = () => {
           </Link>
         </div>
         <div className="flex gap-2 md:order-2 items-center">
-          <button className="bg-gray-200 text-black rounded-full w-9 h-9 flex items-center justify-center">
-            <FaMoon />
+          <button onClick={()=> dispatch(toggleTheme())} className="bg-gray-200 text-black rounded-full w-9 h-9 flex items-center justify-center">
+          {theme === 'light' ? <FaSun /> : <FaMoon />}
           </button>
            
             {currentUser ? (
@@ -67,10 +70,10 @@ const Header = () => {
                 {dropdownOpen && (
                   <div className="absolute right-0 mt-1 py-2 w-50 bg-white border rounded-lg shadow-lg">
                     <div className="px-4">
-                      <span className="block text-sm pb-2 font-semibold">
+                      <span className="block text-sm pb-2 font-semibold text-black">
                         @{currentUser.username}
                       </span>
-                      <span className="border-t border-gray-200 block text-sm font-semibold py-2">
+                      <span className="border-t border-gray-200 block text-sm font-semibold py-2 text-black">
                         {currentUser.email}
                       </span>
                     </div>

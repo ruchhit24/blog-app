@@ -3,10 +3,12 @@ import { Link } from 'react-router-dom'
 import { CiInstagram } from "react-icons/ci";
 import { FaXTwitter } from "react-icons/fa6";
 import { FaFacebook, FaGithub } from "react-icons/fa";
+import {   useSelector } from 'react-redux';
 const Footer = () => {
+  const {theme} = useSelector(state=> state.theme)
   return (
     <div className='w-full border border-t-2 border-gray-600' style={{marginTop : '150px',height : '200px' }}>
-      <div className=' h-full bg-white mx-auto flex' style={{width : '1200px'}}>
+      <div className=' h-full  mx-auto flex' style={{width : '1200px'}}>
         <div className='w-1/2 h-full flex justify-center items-center'>
         <Link to='/'>
     <div className="flex items-center justify-center bg-gray-200 rounded-lg" style={{paddingRight : '20px', width : '100px', height : '40px' , paddingLeft : '30px' }}>
