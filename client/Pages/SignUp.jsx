@@ -47,7 +47,7 @@ const SignUp = () => {
   return (
     <>
        <div className="w-full min-h-screen flex items-center justify-center relative">
-       <div className="flex flex-col w-1/2 h-full items-center font-semibold tracking-tight leading-none" style={{marginTop : '262px'}}>
+       <div className="flex flex-col w-1/2 h-full items-center font-semibold tracking-tight leading-none" >
        <div className="flex items-center justify-center bg-gray-200 rounded-lg " style={{paddingRight : '20px', width : '100px', height : '40px',marginBottom : '20px'}}>
         <h2 className='flex items-center justify-center bg-gradient-to-r from-cyan-500 to-cyan-700 text-white px-2 rounded-lg font-semibold text-xl sm:text-xl' style={{width : '100px',height : '40px'}}>WISE</h2>
         <h2 className='tracking-tighter font-medium text-xl sm:text-xl'>Blog</h2>
@@ -57,7 +57,7 @@ const SignUp = () => {
          </p>
         </div>
         <div className="w-1/2 h-full flex justify-center items-center" >
-  <div className="p-4 m-2 absolute" style={{ width: '480px', marginTop: '200px' }}>
+  <div className="p-4 m-2 absolute" style={{ width: '480px',}}>
     {errorMsg && (
       <div className="mb-5 text-red-600">
         {errorMsg}
