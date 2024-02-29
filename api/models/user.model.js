@@ -15,6 +15,10 @@ const userSchema = new mongoose.Schema({
         type : String,
         required : true,
     },
+    profilePicture : {
+        type : String,
+        default : "https://imgv3.fotor.com/images/blog-richtext-image/10-profile-picture-ideas-to-make-you-stand-out.jpg"
+        },
 },{timestamps : true});
 
 const User = mongoose.model('User',userSchema)

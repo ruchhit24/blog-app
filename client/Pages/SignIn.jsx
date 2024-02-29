@@ -18,8 +18,8 @@ const SignIn = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!form.email || !form.password) {
-       dispatch(signInFailure("All fields are Required!!"));
-       return;
+       return dispatch(signInFailure("All fields are Required!!"));
+     
     }
     try {
       dispatch(siginInStart());
@@ -31,7 +31,6 @@ const SignIn = () => {
       const data = await res.json();
       if (data.success === false) {
         dispatch(signInFailure('INCORRECT CREDENTIALS!!!'));
-        return;
       }
       if (res.ok) {
         dispatch(signInSuccess(data));
@@ -64,18 +63,18 @@ const SignIn = () => {
             <form onSubmit={handleSubmit}>
               <div className="flex flex-col p-4 gap-2">
                 <label className="text-lg font-semibold tracking-tighter leading-none">Email</label>
-                <input type="email" id="email" onChange={changeHandler} className="border-2 border-black p-2 rounded-lg text-md capitalize" placeholder="enter ur email" name="email" />
+                <input type="email" id="email" onChange={changeHandler} className="border-2 border-black p-2 rounded-lg text-md " placeholder="enter ur email" name="email" />
               </div>
               <div className="flex flex-col p-4 gap-2 ">
                 <label className="text-lg font-semibold tracking-tighter leading-none ">Password</label>
-                <input type="password" id="password" onChange={changeHandler} className="border-2 border-black p-2 rounded-lg text-md capitalize" placeholder="enter ur password" name="password" />
+                <input type="password" id="password" onChange={changeHandler} className="border-2 border-black p-2 rounded-lg text-md" placeholder="enter ur password" name="password" />
               </div>
               <div className="flex items-center justify-center p-4">
                 <button className="p-2 m-2 bg-gradient-to-r from-cyan-500 to-cyan-700 text-white w-full rounded-lg text-lg font-semibold cursor-pointer hover: scale-105" disabled={loading}>{loading ? "Loading..." : "SignIn"}</button>
               </div>
               
-            </form>
             <Oauth/>
+            </form> 
           </div>
         </div>
       </div>

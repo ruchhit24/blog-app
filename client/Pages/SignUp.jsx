@@ -64,6 +64,10 @@ const SignUp = () => {
       </div>
     )}
     <form onSubmit={handleSubmit}>
+    <div className="flex flex-col p-4 gap-2">
+        <label className="text-lg font-semibold tracking-tighter leading-none">Username</label>
+        <input type="text" id="username" onChange={changeHandler} className="border-2 border-black p-2 rounded-lg text-md capitalize" placeholder="enter ur username" name="username" />
+      </div>
       <div className="flex flex-col p-4 gap-2">
         <label className="text-lg font-semibold tracking-tighter leading-none">Email</label>
         <input type="email" id="email" onChange={changeHandler} className="border-2 border-black p-2 rounded-lg text-md capitalize" placeholder="enter ur email" name="email" />
