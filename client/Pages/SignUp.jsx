@@ -1,4 +1,4 @@
-import { Alert } from "flowbite-react";
+ 
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -57,33 +57,28 @@ const SignUp = () => {
          </p>
         </div>
         <div className="w-1/2 h-full flex justify-center items-center" >
-          <div className=" p-4 m-2 absolute" style={{width : '480px',marginTop : '200px'}}>
-            {
-              errorMsg && (
-                <Alert className="mb-5" color='failure'>
-                  {errorMsg}
-                </Alert>
-              )
-            }
-            <form onSubmit={handleSubmit}>
-               <div className="flex flex-col p-4 gap-2">
-               <label className="text-lg font-semibold tracking-tighter leading-none">Username</label>
-              <input type="text" id="username" onChange={changeHandler} className="border-2 border-black p-2 rounded-lg text-md capitalize" placeholder="enter ur username" name="username"/>
-               </div>
-               <div className="flex flex-col p-4 gap-2">
-               <label className="text-lg font-semibold tracking-tighter leading-none">Email</label>
-              <input type="email" id="email" onChange={changeHandler} className="border-2 border-black p-2 rounded-lg text-md capitalize" placeholder="enter ur email" name="email"/>
-               </div>
-               <div className="flex flex-col p-4 gap-2">
-               <label className="text-lg font-semibold tracking-tighter leading-none ">Password</label>
-              <input type="password" id="password" onChange={changeHandler} className="border-2 border-black p-2 rounded-lg text-md capitalize" placeholder="enter ur password" name="password"/>
-               </div>
-               <div className="flex items-center justify-center p-4">
-               <button className="p-2 m-2 bg-gradient-to-r from-cyan-500 to-cyan-700 text-white w-full rounded-lg text-lg font-semibold cursor-pointer hover: scale-105" disabled={loading}>{loading ? "Loading..." : "SignUp"}</button>
-               </div>
-            </form>
-          </div>
-        </div>
+  <div className="p-4 m-2 absolute" style={{ width: '480px', marginTop: '200px' }}>
+    {errorMsg && (
+      <div className="mb-5 text-red-600">
+        {errorMsg}
+      </div>
+    )}
+    <form onSubmit={handleSubmit}>
+      <div className="flex flex-col p-4 gap-2">
+        <label className="text-lg font-semibold tracking-tighter leading-none">Email</label>
+        <input type="email" id="email" onChange={changeHandler} className="border-2 border-black p-2 rounded-lg text-md capitalize" placeholder="enter ur email" name="email" />
+      </div>
+      <div className="flex flex-col p-4 gap-2">
+        <label className="text-lg font-semibold tracking-tighter leading-none ">Password</label>
+        <input type="password" id="password" onChange={changeHandler} className="border-2 border-black p-2 rounded-lg text-md capitalize" placeholder="enter ur password" name="password" />
+      </div>
+      <div className="flex items-center justify-center p-4">
+        <button className="p-2 m-2 bg-gradient-to-r from-cyan-500 to-cyan-700 text-white w-full rounded-lg text-lg font-semibold cursor-pointer hover: scale-105" disabled={loading}>{loading ? "Loading..." : "SignIn"}</button>
+      </div>
+    </form>
+  </div>
+</div>
+
     </div>
     </>
   );
