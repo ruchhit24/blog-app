@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import DashSidebar from '../components/DashSidebar';
+import DashProfile from '../components/DashProfile';
 
 
 const Dashboard = () => {
@@ -14,11 +15,11 @@ const Dashboard = () => {
    setTab(tabFromUrl)
   },[location.search])
   return (
-    <div className='w-full min-h-screen flex'>
-      <div className=' bg-gray-800' style={{backgroundColor : "rgb(31 41 55 / var(--tw-bg-opacity))",width : "18%"}}>
+    <div className='w-full h-screen flex'>
+      <div className='min-h-screen bg-gray-800' style={{backgroundColor : "rgb(31 41 55 / var(--tw-bg-opacity))",width : "18%"}}>
         <DashSidebar/>
       </div>
-      <div className=''>profile</div>
+       {tab == 'profile' && <DashProfile/>}
     </div>
   )
 }

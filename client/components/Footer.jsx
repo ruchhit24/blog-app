@@ -7,7 +7,7 @@ import {   useSelector } from 'react-redux';
 const Footer = () => {
   const {theme} = useSelector(state=> state.theme)
   return (
-    <div className='w-full border border-t-2 border-gray-600' style={{marginTop : '150px',height : '200px' }}>
+    <div className='w-full border border-t-2 border-gray-600' style={{height : '200px' }}>
       <div className=' h-full  mx-auto flex' style={{width : '1200px'}}>
         <div className='w-1/2 h-full flex justify-center items-center'>
         <Link to='/'>
