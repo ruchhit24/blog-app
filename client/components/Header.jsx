@@ -14,6 +14,10 @@ const Header = () => {
   const handleDropdownToggle = () => {
     setDropdownOpen(!dropdownOpen);
   };
+const closeHandler = ()=>{
+  setDropdownOpen(false)
+}
+
   return (
     <div>
       <div className="w-full bg-gray-400 py-3 flex justify-evenly items-center border-b-2 border-gray-400">
@@ -64,7 +68,7 @@ const Header = () => {
                   <img
                     src={currentUser.profilePicture}
                     alt="user"
-                    className="w-9 h-9 rounded-full"
+                    className="w-9 h-9 rounded-full object-cover"
                   />
                 </button>
                 {dropdownOpen && (
@@ -81,17 +85,26 @@ const Header = () => {
                       <Link
                         to={"/dashboard?tab=profile"}
                         className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 font-bold uppercase"
+                        onClick={closeHandler}
                       >
                         Profile
                       </Link>
                       <button 
                         className="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 font-bold uppercase"
+                      
                       >
                         Sign out
                       </button>
                     </div>
                   </div>
                 )}
+                {
+                  dropdownOpen && (
+                    <div className="fixed top-0 right-0 left-0 bottom-0 z-10"
+                     onClick={closeHandler}
+                    ></div>
+                  )
+                }
               </div>
             ) : (
               <Link to="/sign-in">
