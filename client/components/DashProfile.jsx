@@ -2,13 +2,13 @@ import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/storage";
 import { app } from "../firebase";
-import { updateStart,updateFailure,updateSuccess } from '../src/redux/user/userSlice'
+import { updateStart,updateFailure,updateSuccess , updateSuccessMsg } from '../src/redux/user/userSlice'
 
 const DashProfile = () => {
 
  const dispatch = useDispatch()
 
-  const { currentUser } = useSelector((state) => state.user);
+  const { currentUser , loading , errorMsg , successMsg} = useSelector((state) => state.user);
 
   const filePickerRef = useRef();
 
@@ -18,10 +18,17 @@ const DashProfile = () => {
 
   const [imageFileUploadError, setImageFileUploadError] = useState(null);
 
+ const [updatePhoto , setUpdatePhoto] = useState(false)
+
+  // const [updateUserSuccess, setUpdateUserSuccess] = useState(null);
+
+  // const [updateUserError, setUpdateUserError] = useState(null);
+
   
   const [imageFileUrl, setImageFileUrl] = useState(null);
 
   const [formData,setFormData] = useState({});
+ 
  
 
   useEffect(() => {
@@ -45,9 +52,11 @@ const DashProfile = () => {
   const handleSubmit = async(e)=>{
 
     e.preventDefault();
-
+    dispatch(updateSuccessMsg(''))
+    dispatch(updateFailure(''))
     if(Object.keys(formData).length === 0)
     {
+      dispatch(updateFailure('No Changes being Made!!'))
       return;
     }
     try {
@@ -67,6 +76,7 @@ const DashProfile = () => {
       }
       else{
         dispatch(updateSuccess(data))
+         dispatch(updateSuccessMsg('User Updated Successfully!!'))
       }
     } catch (error) {
       dispatch(updateFailure(error.message))
@@ -125,6 +135,8 @@ const DashProfile = () => {
           accept="image/*"
           onChange={handleImageChange}
           ref={filePickerRef}
+          onClick={()=>{ setUpdatePhoto(true); dispatch(updateSuccessMsg(''));
+            dispatch(updateFailure(''))}}
           hidden
         />
         <div
@@ -134,10 +146,10 @@ const DashProfile = () => {
           <img
             src={currentUser.profilePicture}
             alt="user"
-            width={380}
-            height={380}
-            className="cursor-pointer rounded-3xl hover:scale-105 duration-700"
-            onClick={() => filePickerRef.current.click()}
+            width={120}
+            height={120}
+            className="cursor-pointer object-cover overflow-hidden rounded-3xl hover:scale-105 duration-700"
+            onClick={() => {filePickerRef.current.click()  }}
           />
         </div>
         <div className="flex flex-col items-center py-2 gap-2">
@@ -174,8 +186,8 @@ const DashProfile = () => {
             className="text-black p-2 rounded-lg bg-slate-300 "
             onChange={handleChange}
           />
-          <button type="submit" className="p-2 m-2 bg-gradient-to-r from-cyan-500 to-cyan-600 text-md rounded-lg cursor-pointer font-semibold">
-            Update
+          <button className="p-2 m-2 bg-gradient-to-r from-cyan-500 to-cyan-600 text-md rounded-lg cursor-pointer font-semibold" onClick={() => setUpdatePhoto(false)}>
+           {loading ? "Updating..." : "Update"}
           </button>
         </div>
         <div className="flex justify-between">
@@ -186,6 +198,32 @@ const DashProfile = () => {
             SignOut
           </span>
         </div>
+        {
+          successMsg && (
+            <div className="mt-5 text-md font-bold text-black bg-green-800 px-4 py-2 rounded-lg">
+                {successMsg}
+              </div>
+          )
+        }
+        {
+          errorMsg && (
+            <div className="mt-5 text-md font-bold text-red-500 bg-red-800 px-4 py-2 rounded-lg">
+                {errorMsg}
+              </div>
+          )
+        }
+        {
+          updatePhoto && (
+           
+           <>
+           
+            <div className="mt-5 text-md font-bold  bg-gradient-to-r from-cyan-700 to-cyan-800 px-4 py-2 rounded-lg">
+                "Click on Update to update the profile photo.."
+              </div>
+           </>
+
+          )
+        }
       </form>
     </div>
   );

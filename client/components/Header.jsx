@@ -8,6 +8,7 @@ import { useSelector, useDispatch } from "react-redux";
 const Header = () => {
   const { currentUser } = useSelector((state) => state.user);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  
   const dispatch = useDispatch();
   const { theme } = useSelector((state) => state.theme);
 
