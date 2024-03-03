@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { IoSearch } from "react-icons/io5";
 import { FaMoon, FaSun } from "react-icons/fa";
 import { toggleTheme } from "../src/redux/theme/themeSlice";
-import { useSelector,useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 const Header = () => {
   const { currentUser } = useSelector((state) => state.user);
@@ -14,9 +14,10 @@ const Header = () => {
   const handleDropdownToggle = () => {
     setDropdownOpen(!dropdownOpen);
   };
-const closeHandler = ()=>{
-  setDropdownOpen(false)
-}
+
+  const closeDropdown = () => {
+    setDropdownOpen(false);
+  };
 
   return (
     <div>
@@ -55,85 +56,64 @@ const closeHandler = ()=>{
           </Link>
         </div>
         <div className="flex gap-2 md:order-2 items-center">
-          <button onClick={()=> dispatch(toggleTheme())} className="bg-gray-200 text-black rounded-full w-9 h-9 flex items-center justify-center">
-          {theme === 'light' ? <FaSun /> : <FaMoon />}
+          <button
+            onClick={() => dispatch(toggleTheme())}
+            className="bg-gray-200 text-black rounded-full w-9 h-9 flex items-center justify-center"
+          >
+            {theme === "light" ? <FaSun /> : <FaMoon />}
           </button>
-           
-            {currentUser ? (
-              <div className="relative">
-                <button
-                  className="bg-gray-200 w-9 h-9 rounded-full text-white font-semibold"
-                  onClick={handleDropdownToggle}
-                >
-                  <img
-                    src={currentUser.profilePicture}
-                    alt="user"
-                    className="w-9 h-9 rounded-full object-cover"
-                  />
-                </button>
-                {dropdownOpen && (
-                  <div className="absolute right-0 mt-1 py-2 w-50 bg-white border rounded-lg shadow-lg">
-                    <div className="px-4">
-                      <span className="block text-sm pb-2 font-semibold text-black">
-                        @{currentUser.username}
-                      </span>
-                      <span className="border-t border-gray-200 block text-sm font-semibold py-2 text-black">
-                        {currentUser.email}
-                      </span>
-                    </div>
-                    <div className="border-t border-gray-200">
-                      <Link
-                        to={"/dashboard?tab=profile"}
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 font-bold uppercase"
-                        onClick={closeHandler}
-                      >
-                        Profile
-                      </Link>
-                      <button 
-                        className="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 font-bold uppercase"
-                      
-                      >
-                        Sign out
-                      </button>
-                    </div>
+
+          {currentUser ? (
+            <div className="relative">
+              <button
+                className="bg-gray-200 w-9 h-9 rounded-full text-white font-semibold"
+                onClick={handleDropdownToggle}
+              >
+                <img
+                  src={currentUser.profilePicture}
+                  alt="user"
+                  className="w-9 h-9 rounded-full object-cover"
+                />
+              </button>
+              {dropdownOpen && (
+                <div className="absolute right-0 mt-1 py-2 w-50 bg-white border rounded-lg shadow-lg">
+                  <div className="px-4">
+                    <span className="block text-sm pb-2 font-semibold text-black">
+                      @{currentUser.username}
+                    </span>
+                    <span className="border-t border-gray-200 block text-sm font-semibold py-2 text-black">
+                      {currentUser.email}
+                    </span>
                   </div>
-                )}
-                {
-                  dropdownOpen && (
-                    <div className="fixed top-0 right-0 left-0 bottom-0 z-10"
-                     onClick={closeHandler}
-                    ></div>
-                  )
-                }
-              </div>
-            ) : (
-              <Link to="/sign-in">
-                <button className="p-2 m-2 rounded-lg bg-purple-600 text-white font-semibold">
-                  Sign In
-                </button>
-              </Link>
-            )} 
+                  <Link
+                    to={"/dashboard?tab=profile"}
+                    className="border-t border-gray-200 cursor-pointer block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 font-bold uppercase"
+                    onClick={closeDropdown}
+                  >
+                    Profile
+                  </Link>
+
+                  <button
+                    className="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 font-bold uppercase"
+                  >
+                    Sign out
+                  </button>
+                </div>
+              )}
+            </div>
+          ) : (
+            <Link to="/sign-in">
+              <button className="p-2 m-2 rounded-lg bg-purple-600 text-white font-semibold">
+                Sign In
+              </button>
+            </Link>
+          )}
           <button className="p-2 m-2 rounded-3xl  bg-gray-200 text-black font-bold">
             <Link to="/sign-up" className="text-md hover:text-white">
               SignUp
             </Link>
           </button>
-          <button className="bg-gray-200 text-black md:hidden">
-            <svg
-              className="h-6 w-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M4 6h16M4 12h16m-7 6h7"
-              />
-            </svg>
-          </button>
+           
         </div>
       </div>
     </div>
