@@ -20,9 +20,7 @@ const DashProfile = () => {
 
  const [updatePhoto , setUpdatePhoto] = useState(false)
 
-  // const [updateUserSuccess, setUpdateUserSuccess] = useState(null);
-
-  // const [updateUserError, setUpdateUserError] = useState(null);
+ const [imageFileUploading, setImageFileUploading] = useState('');
 
   
   const [imageFileUrl, setImageFileUrl] = useState(null);
@@ -86,6 +84,8 @@ const DashProfile = () => {
 
   const uploadImage = async () => {
     try {
+      setImageFileUploading('Wait for image to get upload !!');
+      setUpdatePhoto(false)
       const storage = getStorage(app);
       const fileName = new Date().getTime() + image.name;
       const storageRef = ref(storage, fileName);
@@ -109,6 +109,8 @@ const DashProfile = () => {
               setImageFileUrl(downloadURL);
               console.log(downloadURL);
               setFormData({...formData,profilePicture : downloadURL})
+              setImageFileUploading('');
+              setUpdatePhoto(true);
             })
             .catch((error) => {
               console.error("Download URL Error:", error);
@@ -135,7 +137,7 @@ const DashProfile = () => {
           accept="image/*"
           onChange={handleImageChange}
           ref={filePickerRef}
-          onClick={()=>{ setUpdatePhoto(true); dispatch(updateSuccessMsg(''));
+          onClick={()=>{ dispatch(updateSuccessMsg(''));
             dispatch(updateFailure(''))}}
           hidden
         />
@@ -209,6 +211,13 @@ const DashProfile = () => {
           errorMsg && (
             <div className="mt-5 text-md font-bold text-red-500 bg-red-800 px-4 py-2 rounded-lg">
                 {errorMsg}
+              </div>
+          )
+        }
+        {
+          imageFileUploading && (
+            <div className="mt-5 text-md font-bold text-red-500 bg-red-800 px-4 py-2 rounded-lg">
+                {imageFileUploading}
               </div>
           )
         }
