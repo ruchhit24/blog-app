@@ -2,8 +2,8 @@ import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/storage";
 import { app } from "../firebase";
-import { updateStart,updateFailure,updateSuccess , updateSuccessMsg } from '../src/redux/user/userSlice'
-import { Box, Button, Modal, Typography } from "@mui/material";
+import { updateStart,updateFailure,updateSuccess , updateSuccessMsg, deleteUserFailure ,deleteUserStart,deleteUserSuccess } from '../src/redux/user/userSlice'
+import { Box, Modal, Typography } from "@mui/material";
 
 
 const DashProfile = () => {
@@ -135,6 +135,27 @@ const DashProfile = () => {
       setImageFileUploadError("An unexpected error occurred. Please try again.");
     }
   };
+
+  const handleDelete = async() =>{
+     setOpen(false)
+     
+     try {
+      dispatch(deleteUserStart())
+      const res = await fetch(`/api/user/delete/${currentUser._id}`,{
+        method : 'DELETE'
+      })
+      const data = await res.json();
+      if(!res.ok)
+      {
+        dispatch(deleteUserFailure(data.message))
+      }
+      else{
+        dispatch(deleteUserSuccess(data))
+      }
+     } catch (error) {
+        dispatch(deleteUserFailure(error.message))
+     }
+  }
   
   return (
     <div className="w-1/2 mx-auto flex flex-col gap-5">
@@ -258,7 +279,7 @@ const DashProfile = () => {
        Are you sure you want to Delete this Account ?
     </Typography>
     <Typography id="modal-modal-description" sx={{ mt: 2 }} className="flex justify-between">
-       <button className="p-2 m-2 px-4 bg-red-800 hover:bg-red-600 text-white rounded-xl cursor-pointer hover:scale-105 duration-700 " >Are you Sure</button>
+       <button className="p-2 m-2 px-4 bg-red-800 hover:bg-red-600 text-white rounded-xl cursor-pointer hover:scale-105 duration-700 " onClick={handleDelete}>Are you Sure</button>
        <button className="p-2 m-2 px-4 bg-red-800 hover:bg-red-600 text-white rounded-xl cursor-pointer hover:scale-105 duration-700 " onClick={handleClose}>Cancel</button>
         
     </Typography>
