@@ -66,15 +66,15 @@ const SignUp = () => {
     <form onSubmit={handleSubmit}>
     <div className="flex flex-col p-4 gap-2">
         <label className="text-lg font-semibold tracking-tighter leading-none">Username</label>
-        <input type="text" id="username" onChange={changeHandler} className="border-2 border-black p-2 rounded-lg text-md " placeholder="enter ur username" name="username" />
+        <input type="text" id="username" onChange={changeHandler} className="border-2 border-black p-2 rounded-lg text-md text-black " placeholder="enter ur username" name="username" />
       </div>
       <div className="flex flex-col p-4 gap-2">
         <label className="text-lg font-semibold tracking-tighter leading-none">Email</label>
-        <input type="email" id="email" onChange={changeHandler} className="border-2 border-black p-2 rounded-lg text-md " placeholder="enter ur email" name="email" />
+        <input type="email" id="email" onChange={changeHandler} className="border-2 border-black p-2 rounded-lg text-md text-black " placeholder="enter ur email" name="email" />
       </div>
       <div className="flex flex-col p-4 gap-2">
         <label className="text-lg font-semibold tracking-tighter leading-none ">Password</label>
-        <input type="password" id="password" onChange={changeHandler} className="border-2 border-black p-2 rounded-lg text-md " placeholder="enter ur password" name="password" />
+        <input type="password" id="password" onChange={changeHandler} className="border-2 border-black p-2 rounded-lg text-md text-black " placeholder="enter ur password" name="password" />
       </div>
       <div className="flex items-center justify-center p-4">
         <button className="p-2 m-2 bg-gradient-to-r from-cyan-500 to-cyan-700 text-white w-full rounded-lg text-lg font-semibold cursor-pointer hover: scale-105" disabled={loading}>{loading ? "Loading..." : "SignIn"}</button>

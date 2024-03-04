@@ -4,6 +4,7 @@ import { IoSearch } from "react-icons/io5";
 import { FaMoon, FaSun } from "react-icons/fa";
 import { toggleTheme } from "../src/redux/theme/themeSlice";
 import { useSelector, useDispatch } from "react-redux";
+import { signoutSuccess } from "../src/redux/user/userSlice";
 
 const Header = () => {
   const { currentUser } = useSelector((state) => state.user);
@@ -19,6 +20,24 @@ const Header = () => {
   const closeDropdown = () => {
     setDropdownOpen(false);
   };
+
+  const signoutHandler = async()=>{ 
+    try {
+      const res = await fetch('/api/user/signout',{
+        method : 'POST'
+      })
+      const data = await res.json();
+      if(!res.ok)
+      {
+        console.log("something went wrong witht the signout")
+      }
+      else{
+        dispatch(signoutSuccess())
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   return (
     <div>
@@ -95,7 +114,7 @@ const Header = () => {
                   </Link>
 
                   <button
-                    className="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 font-bold uppercase"
+                    className="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 font-bold uppercase" onClick={signoutHandler}
                   >
                     Sign out
                   </button>

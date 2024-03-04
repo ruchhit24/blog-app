@@ -1,11 +1,33 @@
 import React from 'react'
 import { FaCircleUser } from "react-icons/fa6";
 import { FaArrowRightLong } from "react-icons/fa6";
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { signoutSuccess } from '../src/redux/user/userSlice';
 
-const DashSidebar = () => {
+
+const DashSidebar = () => { 
+  const dispatch = useDispatch()
+
+const handleSignout = async()=>{ 
+  try {
+    const res = await fetch('/api/user/signout',{
+      method : 'POST'
+    })
+    const data = await res.json();
+    if(!res.ok)
+    {
+      console.log("something went wrong witht the signout")
+    }
+    else{
+      dispatch(signoutSuccess())
+    }
+  } catch (error) {
+    console.log(error)
+  }
+}
   return (
-    
+         
         <div className='p-4 flex flex-col gap-2'>
         <Link to='/dashboard?tab=profile'>
         <div className='rounded-lg cursor-pointer p-2 border border-b-0 border-gray-600 flex items-center gap-2 ' style={{backgroundColor : "rgb(63 63 70 / var(--tw-bg-opacity))"}}>
@@ -17,7 +39,7 @@ const DashSidebar = () => {
              
         <div className='rounded-lg cursor-pointer p-2 border border-b-0 border-gray-600  flex items-center gap-2 ' style={{backgroundColor : "rgb(63 63 70 / var(--tw-bg-opacity))"}}>
             <FaArrowRightLong/>
-            <div>SignOut</div>
+            <div onClick={handleSignout}>SignOut</div>
         </div>
         </div>
   )

@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/storage";
 import { app } from "../firebase";
-import { updateStart,updateFailure,updateSuccess , updateSuccessMsg, deleteUserFailure ,deleteUserStart,deleteUserSuccess } from '../src/redux/user/userSlice'
+import { updateStart,updateFailure,updateSuccess , updateSuccessMsg, deleteUserFailure ,deleteUserStart,deleteUserSuccess , signoutSuccess} from '../src/redux/user/userSlice'
 import { Box, Modal, Typography } from "@mui/material";
 
 
@@ -156,6 +156,24 @@ const DashProfile = () => {
         dispatch(deleteUserFailure(error.message))
      }
   }
+
+  const handleSignout = async()=>{
+    try {
+      const res = await fetch('/api/user/signout',{
+        method : 'POST'
+      })
+      const data = await res.json();
+      if(!res.ok)
+      {
+        console.log("something went wrong witht the signout")
+      }
+      else{
+        dispatch(signoutSuccess())
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
   
   return (
     <div className="w-1/2 mx-auto flex flex-col gap-5">
@@ -227,7 +245,7 @@ const DashProfile = () => {
           <span className="text-red-600 font-semibold cursor-pointer border border-b-2 p-2 rounded-lg" onClick= {()=> {setOpen(true)}}>
             Delete account
           </span>
-          <span className="text-red-600 font-semibold cursor-pointer border border-b-2 p-2 rounded-lg">
+          <span className="text-red-600 font-semibold cursor-pointer border border-b-2 p-2 rounded-lg" onClick={handleSignout}>
             SignOut
           </span>
         </div>
