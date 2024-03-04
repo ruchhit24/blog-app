@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/storage";
 import { app } from "../firebase";
 import { updateStart,updateFailure,updateSuccess , updateSuccessMsg } from '../src/redux/user/userSlice'
+import { Box, Button, Modal, Typography } from "@mui/material";
+
 
 const DashProfile = () => {
 
@@ -27,7 +29,7 @@ const DashProfile = () => {
 
   const [formData,setFormData] = useState({});
  
- 
+ const[open,setOpen] = useState(false)
 
   useEffect(() => {
     if (image) {
@@ -45,6 +47,14 @@ const DashProfile = () => {
   const handleChange = (e)=>{
     setFormData({...formData , [e.target.id] : e.target.value})
     console.log(formData)
+  }
+
+  const handleOpen = ()=>{
+    setOpen(true)
+  }
+
+  const handleClose= ()=>{
+    setOpen(false)
   }
 
   const handleSubmit = async(e)=>{
@@ -81,10 +91,10 @@ const DashProfile = () => {
     }
 
   }
-
+ 
   const uploadImage = async () => {
     try {
-      setImageFileUploading('Wait for image to get upload !!');
+      setImageFileUploading('Please !! Wait for image to get uploaded..');
       setUpdatePhoto(false)
       const storage = getStorage(app);
       const fileName = new Date().getTime() + image.name;
@@ -193,7 +203,7 @@ const DashProfile = () => {
           </button>
         </div>
         <div className="flex justify-between">
-          <span className="text-red-600 font-semibold cursor-pointer border border-b-2 p-2 rounded-lg">
+          <span className="text-red-600 font-semibold cursor-pointer border border-b-2 p-2 rounded-lg" onClick= {()=> {setOpen(true)}}>
             Delete account
           </span>
           <span className="text-red-600 font-semibold cursor-pointer border border-b-2 p-2 rounded-lg">
@@ -216,7 +226,7 @@ const DashProfile = () => {
         }
         {
           imageFileUploading && (
-            <div className="mt-5 text-md font-bold text-red-500 bg-red-800 px-4 py-2 rounded-lg">
+            <div className="mt-5 text-md font-semibold text-white bg-red-800 px-4 py-2 rounded-lg">
                 {imageFileUploading}
               </div>
           )
@@ -233,9 +243,30 @@ const DashProfile = () => {
 
           )
         }
+        
       </form>
+ 
+<Modal
+  open={open}
+  onClose={handleClose}
+  aria-labelledby="modal-modal-title"
+  aria-describedby="modal-modal-description"
+  className="flex flex-col justify-center items-center"
+>
+  <Box className = 'bg-white p-8 rounded-xl'>
+    <Typography id="modal-modal-title" variant="h6" component="h2" className="capitalize" sx={{fontWeight : "bold"}}>
+       Are you sure you want to Delete this Account ?
+    </Typography>
+    <Typography id="modal-modal-description" sx={{ mt: 2 }} className="flex justify-between">
+       <button className="p-2 m-2 px-4 bg-red-800 hover:bg-red-600 text-white rounded-xl cursor-pointer hover:scale-105 duration-700 " >Are you Sure</button>
+       <button className="p-2 m-2 px-4 bg-red-800 hover:bg-red-600 text-white rounded-xl cursor-pointer hover:scale-105 duration-700 " onClick={handleClose}>Cancel</button>
+        
+    </Typography>
+  </Box>
+</Modal> 
     </div>
   );
 };
 
 export default DashProfile;
+  
