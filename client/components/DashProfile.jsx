@@ -4,6 +4,7 @@ import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/
 import { app } from "../firebase";
 import { updateStart,updateFailure,updateSuccess , updateSuccessMsg, deleteUserFailure ,deleteUserStart,deleteUserSuccess , signoutSuccess} from '../src/redux/user/userSlice'
 import { Box, Modal, Typography } from "@mui/material";
+import { Link } from "react-router-dom";
 
 
 const DashProfile = () => {
@@ -237,9 +238,18 @@ const DashProfile = () => {
             className="text-black p-2 rounded-lg bg-slate-300 "
             onChange={handleChange}
           />
-          <button className="p-2 m-2 bg-gradient-to-r from-cyan-500 to-cyan-600 text-md rounded-lg cursor-pointer font-semibold" onClick={() => setUpdatePhoto(false)}>
+          <button className="px-4 p-2 m-2 bg-gradient-to-r from-cyan-500 to-cyan-600 text-md rounded-lg cursor-pointer font-semibold" onClick={() => setUpdatePhoto(false)}>
            {loading ? "Updating..." : "Update"}
           </button>
+          {
+            currentUser.isAdmin && (
+               <Link to={'/create-post'}>
+               <button className=" px-4 p-2 m-2 bg-gradient-to-r from-cyan-500 to-cyan-600 text-md rounded-lg cursor-pointer font-semibold" onClick={() => setUpdatePhoto(false)}>
+            Create Post
+          </button>
+               </Link>
+            )
+          }
         </div>
         <div className="flex justify-between">
           <span className="text-red-600 font-semibold cursor-pointer border border-b-2 p-2 rounded-lg" onClick= {()=> {setOpen(true)}}>

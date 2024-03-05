@@ -44,7 +44,7 @@ export const signin = async(req,res,next)=>{
             return next(errorHandler(400,'ur password is incorrect!!'))
         }
 
-        const token = jwt.sign({id : validUser._id},process.env.ACCESS_TOKEN_KEY,{expiresIn : '1d'})
+        const token = jwt.sign({id : validUser._id , isAdmin : validUser.isAdmin}  , process.env.ACCESS_TOKEN_KEY,{expiresIn : '1d'})
         res.status(200).cookie('access_token',token,{httpOnly : true})
         .json(validUser)
     } catch (error) {
@@ -57,7 +57,7 @@ export const googleOAuth = async(req,res,next)=>{
         try {
           const user = await User.findOne({ email });
           if (user) {
-            const token = jwt.sign({ id: user._id},process.env.ACCESS_TOKEN_KEY);
+            const token = jwt.sign({ id: user._id , isAdmin : validUser.isAdmin},process.env.ACCESS_TOKEN_KEY);
             const { password, ...rest } = user._doc;
             res
               .status(200)

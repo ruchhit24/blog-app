@@ -1,12 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { siginInStart, signInSuccess, signInFailure } from '../src/redux/user/userSlice'
+import { siginInStart, signInSuccess, signInFailure , signInStarting } from '../src/redux/user/userSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import Oauth from "../components/Oauth.jsx";
 
 const SignIn = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  useEffect (()=>{
+    dispatch(signInStarting())
+  },[])
 
   const [form, setForm] = useState({});
   const { loading, errorMsg } = useSelector(state => state.user);
@@ -16,7 +20,7 @@ const SignIn = () => {
   }
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault(); 
     if (!form.email || !form.password) {
        return dispatch(signInFailure("All fields are Required!!"));
      
