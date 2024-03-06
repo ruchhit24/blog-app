@@ -41,7 +41,9 @@ export default function DashPost() {
   const { currentUser } = useSelector((state) => state.user);
 
   const { theme } = useSelector((state) => state.theme);
+  
   console.log(userPosts);
+  
   React.useEffect(() => {
     if (currentUser.isAdmin) {
       fetchPosts();
