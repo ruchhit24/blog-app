@@ -90,7 +90,7 @@ const CreatePost = () => {
   }
 
   return (
-    <div className="min-h-screen max-w-xl p-8">
+    <div className="min-h-screen max-w-xl p-8 mx-auto">
       <div
         className="font-semibold text-center mb-5"
         style={{ paddingTop: "20px" }}
@@ -123,8 +123,20 @@ const CreatePost = () => {
             <option className="font-semibold p-2" value="React">
               React
             </option>
+            <option className="font-semibold p-2" value="HTML">
+              HTML
+            </option>
+            <option className="font-semibold p-2" value="CSS">
+              CSS
+            </option>
             <option className="font-semibold p-2" value="NextJS">
               NextJS
+            </option>
+            <option className="font-semibold p-2" value="NodeJS">
+              NodeJS
+            </option>
+            <option className="font-semibold p-2" value="Rust">
+              Rust
             </option>
           </select>
         </div>
@@ -181,7 +193,7 @@ const CreatePost = () => {
         )}
         <ReactQuill
           theme="snow"
-          className="text-black bg-white h-52 w-1/2 mx-auto border border-black"
+          className="text-black bg-white h-52 w-full mx-auto border border-black"
           style={{ height: "208px", marginTop: "20px" }}
           onChange={(value) => {setFormData({...formData , content : value})}}
         />
