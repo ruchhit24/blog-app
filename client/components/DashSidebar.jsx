@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { signoutSuccess } from "../src/redux/user/userSlice";
 import { useSelector } from "react-redux";
 import { MdOutlineDocumentScanner } from "react-icons/md";
+import { TiGroup } from "react-icons/ti";
 
 const DashSidebar = () => {
   const dispatch = useDispatch();
@@ -49,6 +50,20 @@ const DashSidebar = () => {
           
           <MdOutlineDocumentScanner />
           <div>All Posts</div>
+        </div>
+      </Link>
+        )
+      }
+
+      {
+        currentUser.isAdmin && (
+          <Link to="/dashboard?tab=users">
+        <div
+          className="rounded-lg cursor-pointer p-2 border border-b-0 border-gray-600 flex items-center gap-2 "
+          style={{ backgroundColor: "rgb(63 63 70 / var(--tw-bg-opacity))" }}
+        >
+          <TiGroup />
+          <div>All Users</div>
         </div>
       </Link>
         )
