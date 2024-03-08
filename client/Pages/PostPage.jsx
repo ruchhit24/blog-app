@@ -63,7 +63,7 @@ const PostPage = () => {
       style={{ maxWidth: "880px" }}
     >
       <h1
-        className=" text-3xl text-center"
+        className=" text-3xl text-center font-serif"
         style={{
           fontSize: "2.875rem",
           lineHeight: "4.25rem" /* 36px */,
@@ -73,12 +73,14 @@ const PostPage = () => {
         { post.title}
       </h1>
 
+      <div className="rounded-xl">
       <img
         src={ post.image}
         alt={ post.title}
-        className="mt-10 p-3 max-h-[500px] w-full object-cover rounded-lg"
+        className="mt-10 p-3 max-h-[500px] w-full object-cover rounded-xl"
         style={{ maxHeight: "500px", borderRadius: "8px" }}
       />
+      </div>
 
       <div className="flex justify-between p-3 border-b-[1px] border-slate-500 mx-auto w-full max-w-2xl text-xs">
         <span>{ new Date(post.createdAt).toLocaleDateString()}</span>

@@ -88,7 +88,7 @@ const CommentSection = ({ postId }) => {
         <>
           <form onSubmit={handleSubmit} className=" flex flex-col items-center p-3">
             <textarea
-              className=" text-black p-2 rounded-lg"
+              className=" text-black p-2 rounded-lg bg-gray-300"
               onChange={(e) => setComment(e.target.value)}
               value={comment}
               maxLength={200}
