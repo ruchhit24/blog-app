@@ -5,16 +5,14 @@ export default function PostCard({ post }) {
     <div
       className="relative w-full border border-gray-700 overflow-hidden
 
-    rounded-lg sm:w-[430px] 
-
-transition-all"
+    rounded-lg sm:w-[450px] hover:scale-105 duration-700 "
     >
     <Link to={`/post/${post.slug}`}> 
       <div>
           <img
             src={post.image}
             alt="post cover"
-            className="w-full object-cover hover:scale-105 duration-700 "
+            className="w-full object-cover rounded-lg"
             style={{ height: "250px" }}
           />
        
