@@ -1,14 +1,37 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Link, json } from "react-router-dom";
+import { Link} from "react-router-dom";
+import Comment from './Comment'
 
 const CommentSection = ({ postId }) => {
+ 
   const { currentUser } = useSelector((state) => state.user);
 
   const [comment, setComment] = useState("");
 
   
   const [commentError, setCommentError] = useState(null);
+
+  const [comments, setComments] = useState([]);
+  
+  console.log( 'comments = ',comments );
+  console.log('comment = ',comment)
+ 
+  useEffect(() => {
+    const getComments = async () => {
+      try {
+        const res = await fetch(`/api/comment/getPostComments/${postId}`);
+        if (res.ok) {
+          const data = await res.json();
+          setComments(data);
+        }
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
+    getComments();
+  }, [postId]);
+
 
   const handleSubmit = async(e)=>{
     e.preventDefault();
@@ -31,16 +54,19 @@ const CommentSection = ({ postId }) => {
         })
 
         const data = await res.json()
-        if(res.ok){
+        if(res.ok){ 
             setComment('')
             setCommentError(null)
+            setComments([data,...comments])
         }
         console.log(data)
 
     } catch (error) {
-        setCommentError(error)
+        setCommentError(error.message)
     }
   }
+
+
 
   return (
     <div
@@ -80,6 +106,12 @@ const CommentSection = ({ postId }) => {
               </button>
             </div>
           </form>
+         {
+          comments.map((com)=>(
+            <Comment singleComment={com} key={com._id}/>
+          ))
+         }
+          
         </>
       ) : (
         <div className="text-sm text-teal-500 my-5 flex gap-1">
