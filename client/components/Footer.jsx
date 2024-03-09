@@ -13,7 +13,7 @@ const Footer = () => {
         <Link to='/'>
     <div className="flex items-center justify-center bg-gray-200 rounded-lg" style={{paddingRight : '20px', width : '100px', height : '40px' , paddingLeft : '30px' }}>
         <h2 className='flex items-center justify-center bg-gradient-to-r from-cyan-500 to-cyan-700 text-white px-2 rounded-lg font-semibold text-xl sm:text-xl' style={{width : '100px',height : '40px'}}>WISE</h2>
-        <h2 className='tracking-tighter font-medium text-xl sm:text-xl' style={{paddingRight : '25px'}}>Blog</h2>
+        <h2 className='tracking-tighter text-xl sm:text-xl text-black font-semibold' style={{paddingRight : '25px'}}>Blog</h2>
       </div>
     </Link>
         </div>

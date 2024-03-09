@@ -13,6 +13,7 @@ import PrivateAdminRoute from '../components/PrivateAdminRoute'
 import UpdatePost from '../Pages/UpdatePost'
 import PostPage from '../Pages/PostPage'
 import { ScrollToTop } from '../components/ScrollToTop'
+import Search from '../Pages/Search'
  const App = () => {
    return (
      <BrowserRouter>
@@ -23,6 +24,7 @@ import { ScrollToTop } from '../components/ScrollToTop'
       <Route path='/about' element={<About/>}/>
       <Route path='/sign-in' element={<SignIn/>}/>
       <Route path='/sign-up' element={<SignUp/>}/>
+      <Route path='/search' element={<Search />} />
       <Route element={<PrivateRoute/>}>
         <Route path='/dashboard' element={<Dashboard/>}/>
       </Route> 

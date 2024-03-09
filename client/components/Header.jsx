@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { IoSearch } from "react-icons/io5";
 import { FaMoon, FaSun } from "react-icons/fa";
 import { toggleTheme } from "../src/redux/theme/themeSlice";
@@ -10,8 +10,24 @@ const Header = () => {
   const { currentUser } = useSelector((state) => state.user);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   
+  const [searchTerm, setSearchTerm] = useState('');
+  
   const dispatch = useDispatch();
   const { theme } = useSelector((state) => state.theme);
+
+  const location = useLocation(); 
+
+  const navigate = useNavigate();
+
+  console.log(searchTerm)
+
+    useEffect(() => {
+    const urlParams = new URLSearchParams(location.search);
+    const searchTermFromUrl = urlParams.get('searchTerm');
+    if (searchTermFromUrl) {
+      setSearchTerm(searchTermFromUrl);
+    }
+  }, [location.search]);
 
   const handleDropdownToggle = () => {
     setDropdownOpen(!dropdownOpen);
@@ -38,6 +54,13 @@ const Header = () => {
       console.log(error)
     }
   }
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const urlParams = new URLSearchParams(location.search);
+    urlParams.set('searchTerm', searchTerm);
+    const searchQuery = urlParams.toString();
+    navigate(`/search?${searchQuery}`);
+  };
 
   return (
     <div>
@@ -52,41 +75,56 @@ const Header = () => {
             </h2>
           </div>
         </Link>
-        <form className="flex items-center gap-5">
+        <form className="flex items-center gap-5" onSubmit={handleSubmit}>
           <input
             type="text"
             placeholder="Search..."
-            className="p-2 rounded-lg"
+            className="p-2 rounded-lg text-black font-semibold"
             style={{ width: "480px" }}
+            value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
           />
           <IoSearch className="w-6 h-6" />
         </form>
         <div className="flex gap-5">
-          <Link to="/" className="text-lg font-bold">
+          <Link to="/" className="text-lg font-bold text-black hover:text-gray-300 hover:underline">
             Home
           </Link>
-          <Link to="/about" className="text-lg font-bold">
+          <Link to="/about" className="text-lg font-bold text-black hover:text-gray-300 hover:underline">
             About
           </Link>
-          <Link to="/sign-in" className="text-lg font-bold">
+         {
+          currentUser ? (
+             <>
+             <button onClick={signoutHandler} className="text-lg font-bold text-black hover:text-gray-300 hover:underline">
+            Log Out
+          </button>
+          
+             </>
+          ) : (
+             <>
+             <Link to="/sign-in" className="text-lg font-bold text-black hover:text-gray-300 hover:underline">
             SignIn
           </Link>
-          <Link to="/sign-up" className="text-lg font-bold">
+          <Link to="/sign-up" className="text-lg font-bold text-black hover:text-gray-300 hover:underline">
             SignUp
           </Link>
+             </>
+          )
+         }
         </div>
         <div className="flex gap-2 md:order-2 items-center">
           <button
             onClick={() => dispatch(toggleTheme())}
             className="bg-gray-200 text-black rounded-full w-9 h-9 flex items-center justify-center"
           >
-            {theme === "light" ? <FaSun /> : <FaMoon />}
+            {theme === "dark" ? <FaSun /> : <FaMoon />}
           </button>
 
           {currentUser ? (
             <div className="relative">
               <button
-                className="bg-gray-200 w-9 h-9 rounded-full text-white font-semibold"
+                className="bg-gray-200 w-9 h-9 rounded-full text-white font-semibold flex items-center justify-center"
                 onClick={handleDropdownToggle}
               >
                 <img
@@ -96,9 +134,9 @@ const Header = () => {
                 />
               </button>
               {dropdownOpen && (
-                <div className="absolute right-0 mt-1 py-2 w-50 bg-white border rounded-lg shadow-lg">
+                <div className="absolute right-0 mt-1 py-2 w-50 bg-white border rounded-lg shadow-lg z-10">
                   <div className="px-4">
-                    <span className="block text-sm pb-2 font-semibold text-black">
+                    <span className="blo text-black hover:text-gray-300 hover:underlineck text-sm pb-2 font-semibold text-black">
                       @{currentUser.username}
                     </span>
                     <span className="border-t border-gray-200 block text-sm font-semibold py-2 text-black">
@@ -128,11 +166,15 @@ const Header = () => {
               </button>
             </Link>
           )}
-          <button className="p-2 m-2 rounded-3xl  bg-gray-200 text-black font-bold">
+         {
+          !currentUser && (
+            <button className="p-2 m-2 rounded-3xl  bg-gray-200 text-black font-bold">
             <Link to="/sign-up" className="text-md hover:text-white">
               SignUp
             </Link>
           </button>
+          )
+         }
            
         </div>
       </div>
