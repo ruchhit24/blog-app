@@ -29,7 +29,7 @@ const UpdatePost = () => {
 
   const [publishError, setPublishError] = useState(null);
 
-  console.log(formData)
+  console.log("final submission = ",formData)
 
   useEffect(()=>{
     fetchPost()
@@ -39,7 +39,7 @@ const UpdatePost = () => {
       try {
         const res = await fetch(`/api/post/getPost?postId=${postId}`)
         const data = await res.json()
-        console.log(data)
+        console.log("data = ",data)
         if(res.ok)
         {
             setFormData(data.posts[0])
@@ -61,7 +61,7 @@ const UpdatePost = () => {
       }
       setImageUploadError(null);
       const storage = getStorage(app);
-      const fileName = new Date().getTime() + '-' + file.name;
+      const fileName = new Date().getTime() + file.name;
       const storageRef = ref(storage, fileName);
       const uploadTask = uploadBytesResumable(storageRef, file);
       uploadTask.on(
@@ -74,6 +74,7 @@ const UpdatePost = () => {
         (error) => {
           setImageUploadError('Image upload failed');
           setImageUploadProgress(null);
+          console.error("Upload Error:", error);
         },
         () => {
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
@@ -81,11 +82,17 @@ const UpdatePost = () => {
             setImageUploadError(null);
             setImageUploadSuccess("Image Uploaded Successfully!!")
             setFormData({ ...formData, image: downloadURL });
-          });
-        }
-      );
-    } catch (error) {
-      setImageUploadError('Image upload failed');
+          }).catch((error) => {
+            console.error("Download URL Error:", error);
+            setImageUploadError(
+              "Could not get download URL for the uploaded image."
+            );
+        });
+      }
+      )
+       } catch (error) {
+        console.error("Upload Image Error:", error);
+        setImageUploadError("An unexpected error occurred. Please try again.");
       setImageUploadProgress(null);
       console.log(error);
     }
@@ -103,7 +110,7 @@ const UpdatePost = () => {
         })
 
         const data = await res.json()
-        console.log('data = ' , data)
+        console.log('data = ',data)
         if(!res.ok)
         {
             setPublishError(data.message)

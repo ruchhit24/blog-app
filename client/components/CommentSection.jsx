@@ -72,7 +72,8 @@ const CommentSection = ({ postId }) => {
     <div
       style={{ borderTopWidth: "1px", borderColor: "gray", paddingTop: "18px" }}
     >
-      <div className="flex items-center gap-2 font-semibold">
+      { currentUser && (
+        <div className="flex items-center gap-2 font-semibold">
         <p>SignedIn as : </p>
         <img
           src={currentUser.profilePicture}
@@ -83,6 +84,7 @@ const CommentSection = ({ postId }) => {
           @{currentUser.username}
         </Link>
       </div>
+      )}
 
       {currentUser ? (
         <>
@@ -114,12 +116,24 @@ const CommentSection = ({ postId }) => {
           
         </>
       ) : (
-        <div className="text-sm text-teal-500 my-5 flex gap-1">
+         <div>
+         <div className="text-sm text-teal-500 my-5 flex gap-1">
           You must be signed in to comment.
           <Link className="text-blue-500 hover:underline" to={"/sign-in"}>
             Sign In
           </Link>
         </div>
+        {
+          comments.length > 0 ? ( comments.map((com)=>(
+            <Comment singleComment={com} key={com._id}/>
+          ))) : (
+            <div className="text-md text-teal-400 my-5 flex gap-1 font-semibold ">
+          No Comments yet !!
+           
+        </div>
+          )
+         }
+         </div>
       )}
     </div>
   );

@@ -261,7 +261,7 @@ const DashProfile = () => {
         </div>
         {
           successMsg && (
-            <div className="mt-5 text-md font-bold text-black bg-green-800 px-4 py-2 rounded-lg">
+            <div className="mt-5 text-md font-bold text-white bg-green-800 px-4 py-2 rounded-lg">
                 {successMsg}
               </div>
           )
