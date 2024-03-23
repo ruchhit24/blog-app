@@ -1,11 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import moment from 'moment'
+import { FaRegThumbsUp } from "react-icons/fa";
+import { useSelector } from 'react-redux';
 
 
-const Comment = ({singleComment}) => {
+const Comment = ({singleComment , like}) => {
 
     const [user, setUser] = useState({ });
     console.log(user)
+
+    const { currentUser } = useSelector((state) => state.user);
+
  
     useEffect(() => {
         const getUser = async () => {
@@ -41,6 +46,23 @@ const Comment = ({singleComment}) => {
             </span>
           </div>
             <p className='text-gray-500 pb-2'>{singleComment.content}</p>
+            <div className='flex items-center pt-2 text-xs max-w-fit gap-2'>
+              <button
+                type='button'
+                onClick={() => like(singleComment._id)}
+                className={`text-gray-400 hover:text-blue-500 ${
+                  currentUser &&
+                  singleComment.likes.includes(currentUser._id) &&
+                  '!text-blue-500'
+                }`}
+              >
+                <FaRegThumbsUp className='text-sm' />
+              </button>
+              <p className='text-gray-400'>
+                {singleComment.numberOfLikes > 0 && singleComment.numberOfLikes + ' ' +
+                    (singleComment.numberOfLikes === 1 ? 'like' : 'likes')}
+              </p>
+            </div>
        </div>
        </div>
   )

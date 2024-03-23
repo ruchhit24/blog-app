@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { Link} from "react-router-dom";
+import { useSelector  } from "react-redux";
+import { Link , useNavigate} from "react-router-dom";
 import Comment from './Comment'
 
 const CommentSection = ({ postId }) => {
  
   const { currentUser } = useSelector((state) => state.user);
+
+  const navigate = useNavigate()
 
   const [comment, setComment] = useState("");
 
@@ -66,8 +68,34 @@ const CommentSection = ({ postId }) => {
     }
   }
 
-
-
+  const handleLike = async(commentId) => {
+    try {
+      if (!currentUser) {
+        navigate('/sign-in');
+        return;
+      }
+ 
+      const res = await fetch(`/api/comment/likeComment/${commentId}`, {
+        method: 'PUT',
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setComments(
+          comments.map((comment) =>
+            comment._id === commentId
+              ? {
+                  ...comment,
+                  likes: data.likes,
+                  numberOfLikes: data.likes.length,
+                }
+              : comment
+          )
+        );
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
   return (
     <div
       style={{ borderTopWidth: "1px", borderColor: "gray", paddingTop: "18px" }}
@@ -110,7 +138,7 @@ const CommentSection = ({ postId }) => {
           </form>
          {
           comments.map((com)=>(
-            <Comment singleComment={com} key={com._id}/>
+            <Comment singleComment={com} key={com._id} like={handleLike}/>
           ))
          }
           
@@ -123,9 +151,11 @@ const CommentSection = ({ postId }) => {
             Sign In
           </Link>
         </div>
+       
+        {/* Each comments */}
         {
           comments.length > 0 ? ( comments.map((com)=>(
-            <Comment singleComment={com} key={com._id}/>
+            <Comment singleComment={com} key={com._id} like={handleLike}/>
           ))) : (
             <div className="text-md text-teal-400 my-5 flex gap-1 font-semibold ">
           No Comments yet !!
