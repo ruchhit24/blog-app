@@ -4,10 +4,13 @@ import { FaRegThumbsUp } from "react-icons/fa";
 import { useSelector } from 'react-redux';
 
 
-const Comment = ({singleComment , like}) => {
+const Comment = ({singleComment , like , onEdit}) => {
 
     const [user, setUser] = useState({ });
     console.log(user)
+
+    const [isEditing, setIsEditing] = useState(false);
+    const [editedContent, setEditedContent] = useState(singleComment.content);
 
     const { currentUser } = useSelector((state) => state.user);
 
@@ -26,6 +29,31 @@ const Comment = ({singleComment , like}) => {
      };
      getUser();
    }, [singleComment]);
+
+   const handleEdit = () => {
+       setIsEditing(true);
+    		setEditedContent(singleComment.content);
+   }
+
+   const handleSave = async () => {
+    try {
+      const res = await fetch(`/api/comment/editComment/${singleComment._id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          content: editedContent,
+        }),
+      });
+      if (res.ok) {
+        setIsEditing(false);
+        onEdit(singleComment, editedContent);
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
  
     return (
         <div className='flex p-4 border-b dark:border-gray-600 text-sm'>
@@ -45,7 +73,36 @@ const Comment = ({singleComment , like}) => {
               {moment(singleComment.createdAt).fromNow()}
             </span>
           </div>
-            <p className='text-gray-500 pb-2'>{singleComment.content}</p>
+
+
+          {isEditing ? (
+          <>
+            <input
+              className='mb-2 text-black w-full p-3 rounded-lg font-semibold'
+              value={editedContent}
+              onChange={(e) => setEditedContent(e.target.value)}
+              
+            />
+            <div className='flex justify-start gap-2 text-xs'>
+              <button
+                type='button'
+                className='p-2 px-4 bg-gradient-to-r from-cyan-500 to-cyan-800 rounded-lg font-semibold text-white ' 
+                onClick={handleSave}
+              >
+                Save
+              </button>
+              <button
+                type='button'
+                className='p-2 px-4 bg-red-700 border-[1px] border-white  rounded-lg font-semibold text-white '
+                onClick={() => setIsEditing(false)}
+              >
+                Cancel
+              </button>
+            </div>
+          </>
+        ) : (
+          <>
+          <p className='text-gray-500 pb-2'>{singleComment.content}</p>
             <div className='flex items-center pt-2 text-xs max-w-fit gap-2'>
               <button
                 type='button'
@@ -62,7 +119,24 @@ const Comment = ({singleComment , like}) => {
                 {singleComment.numberOfLikes > 0 && singleComment.numberOfLikes + ' ' +
                     (singleComment.numberOfLikes === 1 ? 'like' : 'likes')}
               </p>
+              {currentUser &&
+              (currentUser._id === singleComment.userId || currentUser.isAdmin)      
+
+              && (
+                  <>
+                    <button
+                      type='button'
+                      onClick={handleEdit}
+                      className='text-gray-400 hover:text-blue-500'
+                    >
+                      Edit
+                    </button>
+                   </>
+              )
+              } 
             </div>
+          </>
+        )  }
        </div>
        </div>
   )

@@ -16,7 +16,7 @@ const CommentSection = ({ postId }) => {
 
   const [comments, setComments] = useState([]);
   
-  console.log( 'comments = ',comments );
+  console.log('comments = ',comments );
   console.log('comment = ',comment)
  
   useEffect(() => {
@@ -96,6 +96,15 @@ const CommentSection = ({ postId }) => {
       console.log(error.message);
     }
   };
+
+  const handleEdit = async (comment, editedContent) => {
+    setComments(
+      comments.map((c) =>
+        c._id === comment._id ? { ...c, content: editedContent } : c
+      )
+    );
+    console.log("comments edited", comments)
+  };
   return (
     <div
       style={{ borderTopWidth: "1px", borderColor: "gray", paddingTop: "18px" }}
@@ -155,7 +164,7 @@ const CommentSection = ({ postId }) => {
         {/* Each comments */}
         {
           comments.length > 0 ? ( comments.map((com)=>(
-            <Comment singleComment={com} key={com._id} like={handleLike}/>
+            <Comment singleComment={com} key={com._id} like={handleLike} onEdit={handleEdit}/>
           ))) : (
             <div className="text-md text-teal-400 my-5 flex gap-1 font-semibold ">
           No Comments yet !!
