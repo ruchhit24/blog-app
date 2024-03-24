@@ -4,7 +4,7 @@ import { FaRegThumbsUp } from "react-icons/fa";
 import { useSelector } from 'react-redux';
 
 
-const Comment = ({singleComment , like , onEdit}) => {
+const Comment = ({singleComment , like , onEdit , onDelete}) => {
 
     const [user, setUser] = useState({ });
     console.log(user)
@@ -83,7 +83,7 @@ const Comment = ({singleComment , like , onEdit}) => {
               onChange={(e) => setEditedContent(e.target.value)}
               
             />
-            <div className='flex justify-start gap-2 text-xs'>
+            <div className='flex justify-start gap-6 pt-2 text-xs'>
               <button
                 type='button'
                 className='p-2 px-4 bg-gradient-to-r from-cyan-500 to-cyan-800 rounded-lg font-semibold text-white ' 
@@ -131,6 +131,15 @@ const Comment = ({singleComment , like , onEdit}) => {
                     >
                       Edit
                     </button>
+                    <button
+                      type='button'
+                      onClick={() => onDelete(singleComment._id)}
+                      className='text-gray-400 hover:text-red-500'
+                    >
+                      Delete
+                    </button>
+ 
+                    
                    </>
               )
               } 
