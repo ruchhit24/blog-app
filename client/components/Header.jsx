@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { IoSearch } from "react-icons/io5";
 import { FaMoon, FaSun } from "react-icons/fa";
 import { toggleTheme } from "../src/redux/theme/themeSlice";
 import { useSelector, useDispatch } from "react-redux";
-import { signoutSuccess } from "../src/redux/user/userSlice";
+import { signoutSuccess } from "../src/redux/user/userSlice"; 
 
 const Header = () => {
   const { currentUser } = useSelector((state) => state.user);
@@ -13,6 +13,9 @@ const Header = () => {
   const [searchTerm, setSearchTerm] = useState('');
   
   const dispatch = useDispatch();
+
+  const dropdownRef = useRef(null); // Ref for dropdown container
+
   const { theme } = useSelector((state) => state.theme);
 
   const location = useLocation(); 
@@ -20,6 +23,31 @@ const Header = () => {
   const navigate = useNavigate();
 
   console.log(searchTerm)
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(location.search);
+    const searchTermFromUrl = urlParams.get('searchTerm');
+    if (searchTermFromUrl) {
+      setSearchTerm(searchTermFromUrl);
+    }
+  }, [location.search]);
+
+  useEffect(() => {
+    // Function to handle clicks outside dropdown
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setDropdownOpen(false);
+      }
+    };
+
+    // Adding event listener to document body
+    document.body.addEventListener('click', handleClickOutside);
+
+    // Removing event listener on component unmount
+    return () => {
+      document.body.removeEventListener('click', handleClickOutside);
+    };
+  }, []);
 
     useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
@@ -30,7 +58,7 @@ const Header = () => {
   }, [location.search]);
 
   const handleDropdownToggle = () => {
-    setDropdownOpen(!dropdownOpen);
+    setDropdownOpen((prev) => (!prev));
   };
 
   const closeDropdown = () => {
@@ -113,7 +141,7 @@ const Header = () => {
           )
          }
         </div>
-        <div className="flex gap-2 md:order-2 items-center">
+        <div className="flex gap-2 md:order-2 items-center" ref={dropdownRef}>
           <button
             onClick={() => dispatch(toggleTheme())}
             className="bg-gray-200 text-black rounded-full w-9 h-9 flex items-center justify-center"
@@ -136,7 +164,7 @@ const Header = () => {
               {dropdownOpen && (
                 <div className="absolute right-0 mt-1 py-2 w-50 bg-white border rounded-lg shadow-lg z-10">
                   <div className="px-4">
-                    <span className="blo text-black hover:text-gray-300 hover:underlineck text-sm pb-2 font-semibold text-black">
+                    <span className="blo text-black hover:text-gray-300 hover:underlineck text-sm pb-2 font-semibold">
                       @{currentUser.username}
                     </span>
                     <span className="border-t border-gray-200 block text-sm font-semibold py-2 text-black">
