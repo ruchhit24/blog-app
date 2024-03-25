@@ -12,6 +12,7 @@ import { Link } from 'react-router-dom';
 export default function DashboardComp() {
   const [users, setUsers] = useState([]); 
   const [posts, setPosts] = useState([]);
+  const [comments, setComments] = useState([]);
   const [totalUsers, setTotalUsers] = useState(0);
   const [totalPosts, setTotalPosts] = useState(0);
   const [totalComments, setTotalComments] = useState(0);
@@ -50,7 +51,7 @@ export default function DashboardComp() {
       try {
         const res = await fetch('/api/comment/getComments?limit=5');
         const data = await res.json();
-        if (res.ok) {
+        if(res.ok) {
           setComments(data.comments);
           setTotalComments(data.totalComments);
           setLastMonthComments(data.lastMonthComments);

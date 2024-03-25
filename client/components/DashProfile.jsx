@@ -38,6 +38,11 @@ const DashProfile = () => {
     }
   }, [image]);
 
+  useEffect(()=>{
+    dispatch(updateSuccessMsg(''))
+    dispatch(updateFailure(''))
+  },[])
+
   
   const handleImageChange = (e) => {
     const img = e.target.files[0];
@@ -85,7 +90,7 @@ const DashProfile = () => {
       }
       else{
         dispatch(updateSuccess(data))
-         dispatch(updateSuccessMsg('User Updated Successfully!!'))
+        dispatch(updateSuccessMsg('User Updated Successfully!!'))
       }
     } catch (error) {
       dispatch(updateFailure(error.message))

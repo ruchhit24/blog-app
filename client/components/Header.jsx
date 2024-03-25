@@ -121,6 +121,9 @@ const Header = () => {
           <Link to="/about" className="text-lg font-bold text-black hover:text-gray-300 hover:underline">
             About
           </Link>
+          <Link to="/dashboard?tab=profile" className="text-lg font-bold text-black hover:text-gray-300 hover:underline">
+            Profile
+          </Link>
          {
           currentUser ? (
              <>
