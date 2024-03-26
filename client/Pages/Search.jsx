@@ -114,18 +114,18 @@ export default function Search() {
               type='text'
               value={sidebarData.searchTerm}
               onChange={handleChange}
-              className='font-semibold'
+              className='font-semibold p-2 w-full'
             />
           </div>
           <div className='flex items-center gap-2 justify-around'>
-            <label className='font-semibold'>Sort:</label>
+            <label className='font-semibold'>Sort : </label>
             <Select onChange={handleChange} value={sidebarData.sort}  className='font-semibold' id='sort'>
               <option value='desc'  className='font-semibold'>Latest</option>
               <option value='asc'  className='font-semibold'>Oldest</option>
             </Select>
           </div>
           <div className='flex items-center gap-2'>
-            <label className='font-semibold'>Category:</label>
+            <label className='font-semibold'>Category : </label>
             <Select
               onChange={handleChange}
               value={sidebarData.category}
@@ -161,9 +161,9 @@ export default function Search() {
             </option>
             </Select>
           </div>
-          <Button type='submit' className='text-xl'>
+          <button type='submit' className='flex items-center justify-center bg-gradient-to-r from-cyan-500 to-cyan-800 text-white px-2 py-2 rounded-lg font-bold text-md'>
             Apply Filters
-          </Button>
+          </button>
         </form>
       </div>
       <div className='w-full'>
