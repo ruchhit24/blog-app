@@ -33,8 +33,8 @@ server.use('/api/auth',authRouter)
 server.use('/api/post',postRouter)
 server.use('/api/comment',commentRouter)
 
-app.use(express.static(path.join(__dirname,'/client/dist')));
-app.get('*', (req, res) => {
+server.use(express.static(path.join(__dirname,'/client/dist')));
+server.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'));
 });
 
